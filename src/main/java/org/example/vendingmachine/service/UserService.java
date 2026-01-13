@@ -46,4 +46,20 @@ public class UserService {
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
+
+    // LOGIN
+    public User login(String email, String password, Boolean isAdmin) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        if (!user.getPassword().equals(password)) {
+            throw new RuntimeException("Invalid password");
+        }
+
+        if (!user.getIsAdmin().equals(isAdmin)) {
+            throw new RuntimeException("Role mismatch");
+        }
+
+        return user;
+    }
 }

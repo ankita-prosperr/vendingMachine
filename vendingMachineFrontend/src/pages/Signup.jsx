@@ -10,7 +10,6 @@ function Signup({ onSuccess }) {
     const res = await fetch("http://localhost:8080/api/users/createUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      credentials: "include",
       body: JSON.stringify({
         name,
         email,

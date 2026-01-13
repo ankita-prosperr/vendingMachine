@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     private final UserService userService;
@@ -48,5 +49,15 @@ public class UserController {
     public String deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return "User deleted successfully";
+    }
+
+    // LOGIN
+    @PostMapping("/login")
+    public User login(@RequestBody User user) {
+        return userService.login(
+                user.getEmail(),
+                user.getPassword(),
+                user.getIsAdmin()
+        );
     }
 }

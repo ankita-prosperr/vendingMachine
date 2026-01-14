@@ -10,11 +10,6 @@ function Signup() {
   const [role, setRole] = useState("customer");
 
   const signup = async () => {
-    if (!name || !email || !password) {
-      alert("All fields are required");
-      return;
-    }
-
     const res = await fetch("http://localhost:8080/api/users/createUser", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -26,57 +21,33 @@ function Signup() {
       }),
     });
 
-    if (res.status === 409) {
-      alert("User already registered. Please login.");
-      return;
-    }
-
     if (!res.ok) {
       alert("Signup failed");
       return;
     }
 
-    alert("Signup successful. Please login.");
+    if (role === "customer") {
+      navigate("/vending-machines");
+    } else {
+      alert("Admin registered");
+    }
   };
 
   return (
     <div>
       <h2>Signup</h2>
 
-      <input
-        placeholder="Name"
-        value={name}
-        onChange={e => setName(e.target.value)}
-      /><br /><br />
-
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={e => setEmail(e.target.value)}
-      /><br /><br />
-
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
-      /><br /><br />
+      <input placeholder="Name" onChange={e => setName(e.target.value)} /><br /><br />
+      <input placeholder="Email" onChange={e => setEmail(e.target.value)} /><br /><br />
+      <input type="password" placeholder="Password" onChange={e => setPassword(e.target.value)} /><br /><br />
 
       <label>
-        <input
-          type="radio"
-          checked={role === "customer"}
-          onChange={() => setRole("customer")}
-        />
+        <input type="radio" checked={role === "customer"} onChange={() => setRole("customer")} />
         Customer
       </label>
 
       <label style={{ marginLeft: "10px" }}>
-        <input
-          type="radio"
-          checked={role === "admin"}
-          onChange={() => setRole("admin")}
-        />
+        <input type="radio" checked={role === "admin"} onChange={() => setRole("admin")} />
         Admin
       </label>
 

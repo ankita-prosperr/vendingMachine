@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-function Login({ onSuccess }) {
+function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("customer");
@@ -21,7 +24,13 @@ function Login({ onSuccess }) {
       return;
     }
 
-    onSuccess("Logged in successfully");
+    const user = await res.json();
+
+    if (!user.isAdmin) {
+      navigate("/vending-machines");
+    } else {
+      alert("Admin logged in");
+    }
   };
 
   return (

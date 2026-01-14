@@ -13,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/admin/vending-machines")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AdminVendingMachineController {
 
     private final VendingMachineService vendingMachineService;

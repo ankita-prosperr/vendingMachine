@@ -7,12 +7,14 @@ import CreateVendingMachine from "./pages/CreateVendingMachine";
 import AdminVendingMachineItems from "./pages/AdminVendingMachineItems";
 import EditItem from "./pages/EditItem";
 import AddItem from "./pages/AddItem";
-
+import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+      {/* Ankita */}
         <Route path="/" element={<AuthPage />} />
         <Route path="/vending-machines" element={<VendingMachines />} />
         <Route path="/vending-machines/:id" element={<Inventory />} />
@@ -30,6 +32,11 @@ function App() {
          path="/admin/vending-machines/:vmId/items/new"
          element={<AddItem />}
        />
+
+        {/* Dev */}
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/payment" element={<Payment />} />
+
       </Routes>
     </BrowserRouter>
   );

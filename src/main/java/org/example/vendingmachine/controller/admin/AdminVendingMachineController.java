@@ -3,6 +3,7 @@ package org.example.vendingmachine.controller.admin;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.vendingmachine.dto.AmountRequest;
 import org.example.vendingmachine.entity.VendingMachine;
 import org.example.vendingmachine.service.VendingMachineService;
 import org.springframework.http.HttpStatus;
@@ -30,5 +31,14 @@ public class AdminVendingMachineController {
     @GetMapping
     public List<VendingMachine> getAll() {
         return vendingMachineService.getAllMachines();
+    }
+
+    @PatchMapping("/{id}/amount")
+    @ResponseStatus(HttpStatus.OK)
+    public VendingMachine addToTotalAmount(
+            @PathVariable Long id,
+            @RequestBody AmountRequest request
+    ) {
+        return vendingMachineService.addToTotalAmount(id, request.getAmount());
     }
 }

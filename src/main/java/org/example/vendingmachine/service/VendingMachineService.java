@@ -1,5 +1,6 @@
 package org.example.vendingmachine.service;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.vendingmachine.entity.VendingMachine;
 import org.example.vendingmachine.repository.VendingMachineRepository;
@@ -31,5 +32,16 @@ public class VendingMachineService {
     public VendingMachine getById(Long id) {
         return vendingMachineRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Vending machine not found"));
+    }
+
+    @Transactional
+    public VendingMachine addToTotalAmount(Long id, Long amount) {
+        VendingMachine vm = vendingMachineRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Vending Machine not found"));
+
+        // ADD payment amount, don't set
+        vm.setTotalAmount(vm.getTotalAmount() + amount);
+
+        return vendingMachineRepository.save(vm);
     }
 }

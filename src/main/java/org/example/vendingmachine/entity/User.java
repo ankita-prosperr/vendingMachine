@@ -17,6 +17,8 @@ public class User {
 
     private String name;
     private String password;
+
+    @Column(nullable = false, unique = true)
     private String email;
     private Boolean isAdmin;
 }

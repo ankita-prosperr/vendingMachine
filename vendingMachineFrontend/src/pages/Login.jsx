@@ -28,9 +28,9 @@ function Login() {
 
     if (!user.isAdmin) {
       navigate("/vending-machines");
-    } else {
-      alert("Admin logged in");
-    }
+    }else {
+       navigate("/admin/vending-machines");
+     }
   };
 
   return (

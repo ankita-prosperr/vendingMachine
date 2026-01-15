@@ -7,7 +7,7 @@ function AdminVendingMachineItems() {
   const [items, setItems] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/admin/vending-machines/${vmId}/items`)
+    fetch(`http://localhost:8080/admin/vending-machines/${vmId}/items`, {credentials: "include",})
       .then(res => res.json())
       .then(data => setItems(data))
       .catch(() => alert("Failed to load items"));

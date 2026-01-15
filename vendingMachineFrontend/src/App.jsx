@@ -9,6 +9,7 @@ import EditItem from "./pages/EditItem";
 import AddItem from "./pages/AddItem";
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Routes>
       {/* Ankita */}
         <Route path="/" element={<AuthPage />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/vending-machines" element={<VendingMachines />} />
         <Route path="/vending-machines/:id" element={<Inventory />} />
         <Route path="/admin/vending-machines" element={<AdminVendingMachines />} />

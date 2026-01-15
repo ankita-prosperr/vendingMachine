@@ -22,6 +22,7 @@ function Payment() {
 
         await fetch(`http://localhost:8080/admin/items/${ci.item.itemId}`, {
           method: "PATCH",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -36,6 +37,7 @@ function Payment() {
         `http://localhost:8080/admin/vending-machines/${vendingMachineId}/amount`,
         {
           method: "PATCH",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },

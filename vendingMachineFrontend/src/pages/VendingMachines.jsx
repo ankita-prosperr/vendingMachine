@@ -5,7 +5,7 @@ function VendingMachines() {
   const [machines, setMachines] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/admin/vending-machines")
+    fetch("http://localhost:8080/admin/vending-machines", {credentials: "include",})
       .then(res => res.json())
       .then(data => setMachines(data));
   }, []);

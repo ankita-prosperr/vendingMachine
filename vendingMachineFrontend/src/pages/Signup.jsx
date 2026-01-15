@@ -37,7 +37,12 @@ function Signup() {
       return;
     }
 
-    alert("Signup successful. Please login.");
+    if (role === "admin") {
+      navigate("/admin/vending-machines");
+    } else {
+      navigate("/vending-machines");
+    }
+
   };
 
   return (
@@ -83,6 +88,11 @@ function Signup() {
 
       <br /><br />
       <button onClick={signup}>Signup</button>
+
+      <br /><br />
+      <button onClick={() => navigate("/login")}>
+        Already have an account? Login
+      </button>
     </div>
   );
 }

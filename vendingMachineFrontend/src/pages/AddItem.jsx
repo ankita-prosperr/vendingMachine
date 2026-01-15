@@ -19,6 +19,7 @@ function AddItem() {
       `http://localhost:8080/admin/vending-machines/${vmId}/items`,
       {
         method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           itemName,

@@ -18,6 +18,7 @@ function EditItem() {
       `http://localhost:8080/admin/items/${itemId}`,
       {
         method: "PATCH",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           price: price ? Number(price) : undefined,

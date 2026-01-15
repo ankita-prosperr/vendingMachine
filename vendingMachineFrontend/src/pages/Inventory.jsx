@@ -13,7 +13,8 @@ function Inventory() {
   useEffect(() => {
     if (!id) return;
 
-    fetch(`http://localhost:8080/admin/vending-machines/${id}/items`)
+      fetch(`http://localhost:8080/admin/vending-machines/${id}/items`, {
+    credentials: "include",})
       .then(res => res.json())
       .then(data => {
         setItems(data);

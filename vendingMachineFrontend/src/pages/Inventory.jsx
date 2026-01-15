@@ -13,8 +13,9 @@ function Inventory() {
   useEffect(() => {
     if (!id) return;
 
-      fetch(`http://localhost:8080/admin/vending-machines/${id}/items`, {
-    credentials: "include",})
+    fetch(`http://localhost:8080/admin/vending-machines/${id}/items`, {
+      credentials: "include",
+    })
       .then(res => res.json())
       .then(data => {
         setItems(data);
@@ -48,25 +49,26 @@ function Inventory() {
   return (
     <div className="p-6 relative">
       {/* Cart Counter */}
-      <div className="absolute top-4 right-4 group">
-        <div className="bg-gray-100 px-4 py-2 rounded-full shadow-md cursor-pointer">
+      <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
+        {/* Cart Box */}
+        <div className="bg-gray-100 px-4 py-2 rounded-full shadow-md w-40 text-center">
           Cart: {cartCount} {cartCount === 1 ? "item" : "items"}
         </div>
 
-        {cartCount > 0 && (
-          <div className="absolute right-0 mt-2 w-40 bg-white border shadow-lg rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <button
-              onClick={() =>
-                navigate("/cart", {
-                  state: { cartItems, vendingMachineId: id },
-                })
-              }
-              className="w-full text-left px-4 py-2 hover:bg-gray-100"
-            >
-              Go to Cart
-            </button>
-          </div>
-        )}
+        {/* Go to Cart Button */}
+        <button
+          onClick={() =>
+            navigate("/cart", {
+              state: { cartItems, vendingMachineId: id },
+            })
+          }
+          disabled={cartCount === 0}
+          className={`w-40 px-4 py-2 rounded-md shadow-md text-white font-medium transition-colors duration-200
+            ${cartCount === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-blue-500 hover:bg-blue-600"}
+          `}
+        >
+          Go to Cart
+        </button>
       </div>
 
       <h2 className="text-3xl font-bold mb-6">Inventory</h2>

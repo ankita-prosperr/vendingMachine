@@ -25,9 +25,15 @@ function ItemCard({ item, count, onCartChange }) {
       ${isOutOfStock ? "bg-gray-200 opacity-70" : "bg-white"}`}
     >
       {/* Image Holder */}
-      <div className="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
+      {/* <div className="w-full h-32 bg-gray-200 rounded-lg flex items-center justify-center mb-4">
         <span className="text-gray-500">Image</span>
-      </div>
+      </div> */}
+      <img
+        src={item.imageUrl || "/placeholder.png"}
+        alt={item.itemName}
+        className="w-full h-32 object-cover rounded-lg mb-4"
+      />
+
 
       {/* Item Name */}
       <h3 className="font-semibold text-lg mb-1">{item.itemName}</h3>

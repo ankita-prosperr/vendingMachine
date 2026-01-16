@@ -45,6 +45,7 @@ function AdminVendingMachineItems() {
   return (
     <AppLayout>
       <div className="p-6">
+        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">INVENTORY</h2>
 
@@ -52,45 +53,57 @@ function AdminVendingMachineItems() {
             onClick={() =>
               navigate(`/admin/vending-machines/${vmId}/items/new`)
             }
-            className="bg-blue-600 text-white px-4 py-2 rounded"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
           >
             Add New Item
           </button>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Items Grid */}
+        <div className="flex flex-wrap gap-6 justify-start">
           {items.map(item => (
             <div
               key={item.itemId}
-              className="border rounded p-4 shadow"
+              className="w-64 p-4 border rounded-xl shadow-md bg-white flex flex-col items-center"
             >
-              <div className="h-32 bg-gray-200 mb-3 flex items-center justify-center">
-                <span className="text-gray-500">No Image</span>
-              </div>
+              {/* Item Image */}
+              <img
+                src={item.imageUrl || "/placeholder.png"}
+                alt={item.itemName}
+                className="w-full h-32 object-cover rounded-lg mb-4"
+              />
 
-              <h3 className="font-semibold text-lg">
+              {/* Item Name */}
+              <h3 className="font-semibold text-lg mb-1 text-center">
                 {item.itemName}
               </h3>
 
-              <p>Price: ₹{item.price}</p>
-              <p>Quantity: {item.quantity}</p>
+              {/* Price */}
+              <p className="font-bold text-xl mb-1">
+                ₹ {item.price}
+              </p>
 
-              {/* Edit +  Delete buttons */}
-              <div className="flex gap-2 mt-3">
+              {/* Quantity */}
+              <p className="text-sm text-gray-600 mb-4">
+                Quantity: {item.quantity}
+              </p>
+
+              {/* Action Buttons */}
+              <div className="flex gap-2 w-full">
                 <button
                   onClick={() =>
                     navigate(
                       `/admin/vending-machines/${vmId}/items/${item.itemId}/edit`
                     )
                   }
-                  className="flex-1 bg-yellow-500 text-white py-1 rounded"
+                  className="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-1 rounded"
                 >
                   Edit
                 </button>
 
                 <button
                   onClick={() => deleteItem(item.itemId)}
-                  className="flex-1 bg-red-600 text-white py-1 rounded"
+                  className="flex-1 bg-red-600 hover:bg-red-700 text-white py-1 rounded"
                 >
                   Delete
                 </button>

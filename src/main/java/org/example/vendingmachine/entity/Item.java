@@ -46,4 +46,8 @@ public class Item {
     @JoinColumn(name = "vending_machine_id", nullable = false)
     @JsonIgnore
     private VendingMachine vendingMachine;
+
+    @Column(name = "image_url")
+    private String imageUrl;
+
 }

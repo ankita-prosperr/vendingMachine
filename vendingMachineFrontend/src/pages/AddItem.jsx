@@ -9,6 +9,8 @@ function AddItem() {
   const [itemName, setItemName] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
 
   const addItem = async () => {
     if (!itemName || price === "" || quantity === "") {
@@ -39,6 +41,7 @@ function AddItem() {
           itemName,
           price: priceValue,
           quantity: quantityValue,
+          imageUrl,
         }),
       }
     );
@@ -85,6 +88,14 @@ function AddItem() {
         className="border p-2 w-full mb-3"
         value={quantity}
         onChange={e => setQuantity(e.target.value)}
+      />
+
+      <input
+        type="text"
+        placeholder="Image URL"
+        className="border p-2 w-full mb-3"
+        value={imageUrl}
+        onChange={e => setImageUrl(e.target.value)}
       />
 
       <button

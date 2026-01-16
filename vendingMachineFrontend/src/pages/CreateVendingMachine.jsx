@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 
 function CreateVendingMachine() {
   const [machineName, setMachineName] = useState("");
+  const [rows, setRows] = useState(3);
+  const [columns, setColumns] = useState(4);
+
   const navigate = useNavigate();
 
   const createMachine = async () => {
@@ -11,14 +14,24 @@ function CreateVendingMachine() {
       return;
     }
 
+    if (rows <= 0 || columns <= 0) {
+      alert("Rows and columns must be greater than 0");
+      return;
+    }
+
     const res = await fetch("http://localhost:8080/admin/vending-machines", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ machineName }),
+      body: JSON.stringify({
+        machineName,
+        rows,
+        columns
+      }),
     });
 
     if (!res.ok) {
-      alert("Failed to create vending machine");
+      const err = await res.json();
+      alert(err.message || "Failed to create vending machine");
       return;
     }
 
@@ -32,29 +45,53 @@ function CreateVendingMachine() {
           Create Vending Machine
         </h2>
 
+        {/* Machine Name */}
         <label className="block text-sm font-medium text-gray-700 mb-1">
           Machine Name
         </label>
-
         <input
           type="text"
-          placeholder="Enter machine name"
           value={machineName}
           onChange={e => setMachineName(e.target.value)}
-          className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border rounded-lg mb-4"
+          placeholder="Enter machine name"
         />
 
-        <div className="mt-6 flex justify-between">
+        {/* Rows */}
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Rows
+        </label>
+        <input
+          type="number"
+          min="1"
+          value={rows}
+          onChange={e => setRows(Number(e.target.value))}
+          className="w-full px-4 py-2 border rounded-lg mb-4"
+        />
+
+        {/* Columns */}
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Columns
+        </label>
+        <input
+          type="number"
+          min="1"
+          value={columns}
+          onChange={e => setColumns(Number(e.target.value))}
+          className="w-full px-4 py-2 border rounded-lg mb-6"
+        />
+
+        <div className="flex justify-between">
           <button
             onClick={() => navigate("/admin/vending-machines")}
-            className="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+            className="px-4 py-2 rounded-lg border"
           >
             Cancel
           </button>
 
           <button
             onClick={createMachine}
-            className="px-6 py-2 rounded-lg bg-blue-600 text-white font-medium hover:bg-blue-700 transition"
+            className="px-6 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700"
           >
             Create
           </button>

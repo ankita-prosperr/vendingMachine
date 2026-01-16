@@ -24,14 +24,15 @@ function App() {
          path="/admin/vending-machines/:vmId/items"
          element={<AdminVendingMachineItems />}
        />
-       <Route
-         path="/admin/vending-machines/:vmId/items/:itemId/edit"
-         element={<EditItem />}
-       />
-       <Route
-         path="/admin/vending-machines/:vmId/items/new"
-         element={<AddItem />}
-       />
+
+        <Route
+          path="/admin/slots/:slotId/add"
+          element={<AddItem />}
+        />
+        <Route
+          path="/admin/slots/:slotId/edit"
+          element={<EditItem />}
+        />
 
         {/* Dev */}
         <Route path="/cart" element={<Cart />} />

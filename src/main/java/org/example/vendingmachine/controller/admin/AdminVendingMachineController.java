@@ -3,42 +3,48 @@ package org.example.vendingmachine.controller.admin;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.example.vendingmachine.Exception.ResourceNotFoundException;
 import org.example.vendingmachine.dto.AmountRequest;
+import org.example.vendingmachine.dto.CreateVendingMachineRequest;
+import org.example.vendingmachine.dto.VendingMachineResponse;
 import org.example.vendingmachine.entity.VendingMachine;
+import org.example.vendingmachine.repository.VendingMachineRepository;
 import org.example.vendingmachine.service.VendingMachineService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/admin/vending-machines")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
 public class AdminVendingMachineController {
 
     private final VendingMachineService vendingMachineService;
+    private final VendingMachineRepository vendingMachineRepository;
 
-    // Admin: create vending machine
+    //  Create vending machine (with rows & columns)
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public VendingMachine create(@Valid @RequestBody VendingMachine vm) {
-        System.out.println("Saving vending machine: " + vm.getMachineName());
-        return vendingMachineService.createMachine(vm);
+    public ResponseEntity<VendingMachine> createVendingMachine(
+            @Valid @RequestBody CreateVendingMachineRequest request
+    ) {
+        VendingMachine vm = vendingMachineService.createMachine(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(vm);
     }
 
-    // Admin: see all vending machines
+    // Get all vending machines
     @GetMapping
-    public List<VendingMachine> getAll() {
+    public List<VendingMachineResponse> getAllVendingMachines() {
         return vendingMachineService.getAllMachines();
     }
 
-    @PatchMapping("/{id}/amount")
-    @ResponseStatus(HttpStatus.OK)
-    public VendingMachine addToTotalAmount(
-            @PathVariable Long id,
-            @RequestBody AmountRequest request
-    ) {
-        return vendingMachineService.addToTotalAmount(id, request.getAmount());
+    @DeleteMapping("/{vmId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVendingMachine(@PathVariable Long vmId) {
+        vendingMachineService.deleteVendingMachine(vmId);
     }
+
 }
+

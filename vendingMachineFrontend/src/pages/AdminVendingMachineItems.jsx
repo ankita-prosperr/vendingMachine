@@ -4,58 +4,72 @@ import { useParams, useNavigate } from "react-router-dom";
 function AdminVendingMachineItems() {
   const { vmId } = useParams();
   const navigate = useNavigate();
-  const [items, setItems] = useState([]);
+  const [slots, setSlots] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/admin/vending-machines/${vmId}/items`)
-      .then(res => res.json())
-      .then(data => setItems(data))
-      .catch(() => alert("Failed to load items"));
+    fetch(`http://localhost:8080/admin/vending-machines/${vmId}/slots`)
+      .then(res => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then(data => setSlots(data))
+      .catch(() => alert("Failed to load inventory"));
   }, [vmId]);
 
   return (
     <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">INVENTORY</h2>
+      <h2 className="text-2xl font-bold mb-6">Inventory</h2>
 
-        <button
-          onClick={() =>
-            navigate(`/admin/vending-machines/${vmId}/items/new`)
-          }
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-           Add New Item
-        </button>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {items.map(item => (
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        {slots.map(slot => (
           <div
-            key={item.itemId}
-            className="border rounded p-4 shadow"
+            key={slot.slotId}
+            className="border rounded-lg shadow p-4"
           >
-            {/* Placeholder */}
-            <div className="h-32 bg-gray-200 mb-3 flex items-center justify-center">
-              <span className="text-gray-500">No Image</span>
-            </div>
+            {/* IMAGE / STATUS */}
+            {slot.quantity === 0 ? (
+              <div className="h-32 bg-red-100 flex items-center justify-center mb-3">
+                <span className="text-red-600 font-bold">
+                  OUT OF STOCK
+                </span>
+              </div>
+            ) : (
+              <div className="h-32 bg-gray-200 flex items-center justify-center mb-3">
+                <span className="text-gray-500">No Image</span>
+              </div>
+            )}
 
-            <h3 className="font-semibold text-lg">
-              {item.itemName}
-            </h3>
+            {/* CASE 1: ITEM EXISTS & IN STOCK */}
+            {slot.itemName && slot.quantity > 0 && (
+              <>
+                <h3 className="font-semibold text-lg">
+                  {slot.itemName}
+                </h3>
+                <p>₹ {slot.price}</p>
+                <p>Qty: {slot.quantity}</p>
 
-            <p>Price: ₹{item.price}</p>
-            <p>Quantity: {item.quantity}</p>
+                <button
+                  onClick={() =>
+                    navigate(`/admin/slots/${slot.slotId}/edit`)
+                  }
+                  className="mt-3 w-full bg-yellow-500 hover:bg-yellow-600 text-white py-1 rounded"
+                >
+                  Edit Item
+                </button>
+              </>
+            )}
 
-            <button
-              onClick={() =>
-                navigate(
-                  `/admin/vending-machines/${vmId}/items/${item.itemId}/edit`
-                )
-              }
-              className="mt-3 w-full bg-yellow-500 text-white py-1 rounded"
-            >
-               Edit
-            </button>
+            {/* CASE 2: EMPTY SLOT OR OUT OF STOCK */}
+            {(!slot.itemName || slot.quantity === 0) && (
+              <button
+                onClick={() =>
+                  navigate(`/admin/slots/${slot.slotId}/add`)
+                }
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded transition"
+              >
+                Add Item
+              </button>
+            )}
           </div>
         ))}
       </div>

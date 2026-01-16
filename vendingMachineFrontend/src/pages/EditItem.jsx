@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 
 function EditItem() {
-  const { itemId, vmId } = useParams();
+  const { slotId } = useParams();
   const navigate = useNavigate();
 
   const [price, setPrice] = useState("");
@@ -15,23 +15,24 @@ function EditItem() {
     }
 
     const res = await fetch(
-      `http://localhost:8080/admin/items/${itemId}`,
+      `http://localhost:8080/admin/slots/${slotId}/item`,
       {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          price: price ? Number(price) : undefined,
-          quantity: quantity ? Number(quantity) : undefined,
+          price: price ? Number(price) : null,
+          quantity: quantity ? Number(quantity) : null
         }),
       }
     );
 
     if (!res.ok) {
-      alert("Update failed");
+      const err = await res.json();
+      alert(err.message || "Update failed");
       return;
     }
 
-    navigate(`/admin/vending-machines/${vmId}/items`);
+    navigate(-1);
   };
 
   return (
@@ -39,6 +40,7 @@ function EditItem() {
       <h2 className="text-xl font-bold mb-4">Edit Item</h2>
 
       <input
+        type="number"
         placeholder="New Price"
         className="border p-2 w-full mb-3"
         value={price}
@@ -46,6 +48,7 @@ function EditItem() {
       />
 
       <input
+        type="number"
         placeholder="New Quantity"
         className="border p-2 w-full mb-3"
         value={quantity}

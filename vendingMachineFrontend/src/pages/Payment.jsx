@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 function Payment() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const { totalAmount, vendingMachineId, cartItems } = location.state || {};
   const [selected, setSelected] = useState("");
 
@@ -16,34 +17,23 @@ function Payment() {
     }
 
     try {
-      // 1️⃣ Update item quantities
+      // ✅ Update slot quantities only
       for (const ci of Object.values(cartItems)) {
-        const newQuantity = ci.item.quantity - ci.count;
+        const newQuantity = ci.slot.quantity - ci.count;
 
-        await fetch(`http://localhost:8080/admin/items/${ci.item.itemId}`, {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            quantity: newQuantity,
-          }),
-        });
+        await fetch(
+          `http://localhost:8080/admin/slots/${ci.slot.slotId}/item`,
+          {
+            method: "PATCH",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              quantity: newQuantity,
+            }),
+          }
+        );
       }
-
-      // 2️⃣ ADD payment amount to vending machine total
-      await fetch(
-        `http://localhost:8080/admin/vending-machines/${vendingMachineId}/amount`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            amount: totalAmount, // cart amount
-          }),
-        }
-      );
 
       alert("Payment Successful!");
       navigate(`/vending-machines/${vendingMachineId}`);

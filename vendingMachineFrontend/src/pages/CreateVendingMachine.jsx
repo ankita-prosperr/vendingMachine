@@ -4,6 +4,7 @@ import AppLayout from "../components/AppLayout";
 
 function CreateVendingMachine() {
   const [machineName, setMachineName] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
   const navigate = useNavigate();
 
   const createMachine = async () => {
@@ -16,7 +17,7 @@ function CreateVendingMachine() {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ machineName }),
+      body: JSON.stringify({ machineName, imageUrl, }),
     });
 
     if (!res.ok) {
@@ -46,6 +47,15 @@ function CreateVendingMachine() {
           onChange={e => setMachineName(e.target.value)}
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
         />
+
+        <input
+          type="text"
+          placeholder="Image URL"
+          className="border p-2 w-full mb-3"
+          value={imageUrl}
+          onChange={e => setImageUrl(e.target.value)}
+        />
+
 
         <div className="mt-6 flex justify-between">
           <button

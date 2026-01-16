@@ -39,4 +39,7 @@ public class VendingMachine {
     )
     @JsonIgnore
     private List<Item> items = new ArrayList<>();
+
+    @Column(name = "image_url")
+    private String imageUrl;
 }

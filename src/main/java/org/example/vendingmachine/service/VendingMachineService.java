@@ -4,7 +4,9 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.example.vendingmachine.entity.VendingMachine;
 import org.example.vendingmachine.repository.VendingMachineRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -43,5 +45,15 @@ public class VendingMachineService {
         vm.setTotalAmount(vm.getTotalAmount() + amount);
 
         return vendingMachineRepository.save(vm);
+    }
+
+    public void deleteMachine(Long id) {
+        VendingMachine vm = vendingMachineRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Vending machine not found"
+                ));
+
+        vendingMachineRepository.delete(vm);
     }
 }

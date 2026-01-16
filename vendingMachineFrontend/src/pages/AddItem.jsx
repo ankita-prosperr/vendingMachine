@@ -11,8 +11,21 @@ function AddItem() {
   const [quantity, setQuantity] = useState("");
 
   const addItem = async () => {
-    if (!itemName || !price || !quantity) {
+    if (!itemName || price === "" || quantity === "") {
       alert("All fields are required");
+      return;
+    }
+  
+    const priceValue = Number(price);
+    const quantityValue = Number(quantity);
+
+    if (priceValue < 0) {
+      alert("Price cannot be negative. It must be positive");
+      return;
+    }
+
+    if (quantityValue < 0) {
+      alert("Quantity cannot be negative. It must be positive");
       return;
     }
 
@@ -24,8 +37,8 @@ function AddItem() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           itemName,
-          price: Number(price),
-          quantity: Number(quantity),
+          price: priceValue,
+          quantity: quantityValue,
         }),
       }
     );
@@ -34,6 +47,7 @@ function AddItem() {
       alert("Failed to add item");
       return;
     }
+
 
     navigate(`/admin/vending-machines/${vmId}/items`);
   };

@@ -79,4 +79,21 @@ public class AdminItemController {
         }
         return itemService.getItemsByVendingMachine(vmId);
     }
+
+    @DeleteMapping("/items/{itemId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteItem(
+            @PathVariable Long itemId,
+            HttpServletRequest request
+    ) {
+        User admin = userSecurity.getAuthenticatedAdmin(request);
+        if (admin == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Admin login required"
+            );
+        }
+
+        itemService.deleteItem(itemId);
+    }
 }

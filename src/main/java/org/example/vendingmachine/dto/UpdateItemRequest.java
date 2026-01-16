@@ -10,6 +10,6 @@ public class UpdateItemRequest {
     @PositiveOrZero(message = "Quantity cannot be negative")
     private Integer quantity;
 
-    @Positive(message = "Price must be greater than zero")
+    @PositiveOrZero(message = "Price must be greater than zero")
     private Double price;
 }

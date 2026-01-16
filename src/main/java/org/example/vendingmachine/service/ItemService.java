@@ -6,7 +6,9 @@ import org.example.vendingmachine.entity.Item;
 import org.example.vendingmachine.entity.VendingMachine;
 import org.example.vendingmachine.repository.ItemRepository;
 import org.example.vendingmachine.repository.VendingMachineRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -60,4 +62,15 @@ public class ItemService {
     public List<Item> getItemsByVendingMachine(Long vmId) {
         return itemRepository.findByVendingMachine_VendingMachineId(vmId);
     }
+
+    public void deleteItem(Long itemId) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Item not found"
+                ));
+
+        itemRepository.delete(item);
+    }
+
 }

@@ -38,7 +38,7 @@ public class Item {
     private Integer quantity;
 
     @NotNull
-    @Positive(message = "Price must be greater than zero")
+    @PositiveOrZero(message = "Price must be greater than zero")
     @Column(name = "price", nullable = false)
     private Double price;
 

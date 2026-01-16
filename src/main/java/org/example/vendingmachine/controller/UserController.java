@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.example.vendingmachine.entity.User;
 import org.example.vendingmachine.security.UserSecurity;
 import org.example.vendingmachine.service.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,15 +23,29 @@ public class UserController {
         this.userSecurity = userSecurity;
     }
 
-    // CREATE USER
     @PostMapping("/createUser")
-    public User createUser(@RequestBody User user, HttpServletResponse response) {
-        User createdUser = userService.createUser(user);
+    public ResponseEntity<?> createUser(@RequestBody User user, HttpServletResponse response) {
+        try {
+            // Check if user already exists by email
+            if (userService.getAllUsers().stream()
+                    .anyMatch(u -> u.getEmail().equalsIgnoreCase(user.getEmail()))) {
+                return ResponseEntity
+                        .status(409)
+                        .body("User already registered. Please login.");
+            }
+            // Create user
+            User createdUser = userService.createUser(user);
 
-        // SET JWT COOKIE (ADMIN or CUSTOMER)
-        userSecurity.setJwtCookie(response, createdUser);
+            // Set JWT cookie (ADMIN or CUSTOMER)
+            userSecurity.setJwtCookie(response, createdUser);
 
-        return createdUser;
+            return ResponseEntity.ok(createdUser);
+        } catch (Exception e) {
+            // Catch any DB-level constraint violation
+            return ResponseEntity
+                    .status(500)
+                    .body("Error creating user: " + e.getMessage());
+        }
     }
 
     // READ BY ID

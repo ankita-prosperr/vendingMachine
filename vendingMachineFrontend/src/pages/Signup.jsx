@@ -8,12 +8,26 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("customer");
+  const [error, setError] = useState("");
+
+  const validate = () => {
+    if (!name.trim()) return "Name is required";
+    if (name.length < 2) return "Name must be at least 2 characters";
+    if (!email.trim()) return "Email is required";
+    if (!/\S+@\S+\.\S+/.test(email)) return "Invalid email format";
+    if (!password) return "Password is required";
+    if (password.length < 6) return "Password must be at least 6 characters";
+    return "";
+  };
 
   const signup = async () => {
-    if (!name || !email || !password) {
-      alert("All fields are required");
+    const validationError = validate();
+    if (validationError) {
+      setError(validationError);
       return;
     }
+
+    setError("");
 
     const res = await fetch("http://localhost:8080/api/users/createUser", {
       method: "POST",
@@ -28,20 +42,16 @@ function Signup() {
     });
 
     if (res.status === 409) {
-      alert("User already registered. Please login.");
+      setError("User already registered. Please login.");
       return;
     }
 
     if (!res.ok) {
-      alert("Signup failed");
+      setError("Signup failed");
       return;
     }
 
-    if (role === "admin") {
-      navigate("/admin/vending-machines");
-    } else {
-      navigate("/vending-machines");
-    }
+    navigate(role === "admin" ? "/admin/vending-machines" : "/vending-machines");
   };
 
   return (
@@ -49,17 +59,17 @@ function Signup() {
       <div className="w-full max-w-md p-8 rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center mb-6">Signup</h2>
 
+        {error && <p className="text-red-600 mb-4 text-center">{error}</p>}
+
         <input
           className="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring"
           placeholder="Name"
-          value={name}
           onChange={e => setName(e.target.value)}
         />
 
         <input
           className="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring"
           placeholder="Email"
-          value={email}
           onChange={e => setEmail(e.target.value)}
         />
 
@@ -67,7 +77,6 @@ function Signup() {
           type="password"
           className="w-full mb-4 px-4 py-2 border rounded focus:outline-none focus:ring"
           placeholder="Password"
-          value={password}
           onChange={e => setPassword(e.target.value)}
         />
 

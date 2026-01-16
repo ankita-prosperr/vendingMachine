@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import VendingMachineCard from "../components/VendingMachineCard";
+import AppLayout from "../components/AppLayout";
 
 function VendingMachines() {
   const [machines, setMachines] = useState([]);
@@ -11,6 +12,7 @@ function VendingMachines() {
   }, []);
 
   return (
+    <AppLayout>
     <div className="p-6">
       <h2 className="text-3xl font-bold mb-6">Vending Machines</h2>
 
@@ -20,6 +22,7 @@ function VendingMachines() {
         ))}
       </div>
     </div>
+    </AppLayout>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import CartItemCard from "../components/CartItemCard";
+import AppLayout from "../components/AppLayout";
 
 function Cart() {
   const location = useLocation();
@@ -17,6 +18,7 @@ function Cart() {
   );
 
   return (
+    <AppLayout>
     <div className="p-6">
       {/* Pay Button */}
       <button
@@ -37,6 +39,7 @@ function Cart() {
         ))}
       </div>
     </div>
+    </AppLayout>
   );
 }
 

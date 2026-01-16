@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
 
 function AddItem() {
   const { vmId } = useParams();
@@ -38,6 +39,7 @@ function AddItem() {
   };
 
   return (
+    <AppLayout>
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-2xl font-bold mb-4">Add New Item</h2>
 
@@ -78,6 +80,7 @@ function AddItem() {
         Add Item
       </button>
     </div>
+    </AppLayout>
   );
 }
 

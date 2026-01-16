@@ -78,4 +78,21 @@ public class AdminVendingMachineController {
         return vendingMachineService.addToTotalAmount(id, requestBody.getAmount());
     }
 
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteVendingMachine(
+            @PathVariable Long id,
+            HttpServletRequest request
+    ) {
+        User admin = userSecurity.getAuthenticatedAdmin(request);
+        if (admin == null) {
+            throw new ResponseStatusException(
+                    HttpStatus.UNAUTHORIZED,
+                    "Admin login required"
+            );
+        }
+
+        vendingMachineService.deleteMachine(id);
+    }
+
 }

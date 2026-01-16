@@ -1,7 +1,5 @@
 package org.example.vendingmachine.repository;
 
-import io.micrometer.observation.ObservationFilter;
-import jakarta.validation.constraints.NotNull;
 import org.example.vendingmachine.entity.Item;
 import org.example.vendingmachine.enums.ItemName;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +13,7 @@ public interface ItemRepository
     List<Item> findByVendingMachine_VendingMachineId(Long vendingMachineId);
 
     Optional<Item> findByVendingMachine_VendingMachineIdAndItemName(
-            Long vendingMachineId,
+            Long vmId,
             ItemName itemName
     );
 

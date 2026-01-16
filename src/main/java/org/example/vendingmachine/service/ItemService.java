@@ -25,19 +25,19 @@ public class ItemService {
         VendingMachine vm = vendingMachineRepository.findById(vmId)
                 .orElseThrow(() -> new IllegalArgumentException("Vending machine not found"));
 
-        return itemRepository
-                .findByVendingMachine_VendingMachineIdAndItemName(vmId, item.getItemName())
-                .map(existingItem -> {
-                    existingItem.setQuantity(
-                            existingItem.getQuantity() + item.getQuantity()
-                    );
-                    existingItem.setPrice(item.getPrice());
-                    return itemRepository.save(existingItem);
-                })
-                .orElseGet(() -> {
-                    item.setVendingMachine(vm);
-                    return itemRepository.save(item);
-                });
+        if (itemRepository
+                .findByVendingMachine_VendingMachineIdAndItemName(vmId, item.getItemName()).isPresent()) {
+
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Item with this name already exists in this vending machine"
+            );
+        }
+
+
+        item.setVendingMachine(vm);
+        return itemRepository.save(item);
+
     }
 
     public Item updateItem(Long itemId, UpdateItemRequest request) {

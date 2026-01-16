@@ -46,10 +46,17 @@ function AddItem() {
       }
     );
 
-    if (!res.ok) {
-      alert("Failed to add item");
-      return;
-    }
+if (!res.ok) {
+  if (res.status === 409) {
+    alert("Item with this name already exists");
+  } else if (res.status === 400) {
+    alert("Invalid item data");
+  } else {
+    alert("Failed to add item");
+  }
+  return;
+}
+
 
 
     navigate(`/admin/vending-machines/${vmId}/items`);

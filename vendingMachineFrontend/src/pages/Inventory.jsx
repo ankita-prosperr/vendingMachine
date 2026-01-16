@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import ItemCard from "../components/ItemCard";
+import AppLayout from "../components/AppLayout";
 
 function Inventory() {
   const { id } = useParams();
@@ -47,6 +48,7 @@ function Inventory() {
   if (loading) return <h3>Loading inventory...</h3>;
 
   return (
+    <AppLayout>
     <div className="p-6 relative">
       {/* Cart Counter */}
       <div className="absolute top-4 right-4 flex flex-col items-end gap-2">
@@ -84,6 +86,7 @@ function Inventory() {
         ))}
       </div>
     </div>
+    </AppLayout>
   );
 }
 

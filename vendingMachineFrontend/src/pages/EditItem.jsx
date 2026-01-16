@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
 
 function EditItem() {
   const { itemId, vmId } = useParams();
@@ -36,6 +37,7 @@ function EditItem() {
   };
 
   return (
+    <AppLayout>
     <div className="p-6 max-w-md mx-auto">
       <h2 className="text-xl font-bold mb-4">Edit Item</h2>
 
@@ -60,6 +62,7 @@ function EditItem() {
         Update
       </button>
     </div>
+    </AppLayout>
   );
 }
 

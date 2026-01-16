@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
 
 function AdminVendingMachineItems() {
   const { vmId } = useParams();
@@ -14,6 +15,7 @@ function AdminVendingMachineItems() {
   }, [vmId]);
 
   return (
+    <AppLayout>
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">INVENTORY</h2>
@@ -60,6 +62,7 @@ function AdminVendingMachineItems() {
         ))}
       </div>
     </div>
+    </AppLayout>
   );
 }
 

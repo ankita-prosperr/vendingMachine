@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AppLayout from "../components/AppLayout";
 
 function CreateVendingMachine() {
   const [machineName, setMachineName] = useState("");
@@ -27,6 +28,7 @@ function CreateVendingMachine() {
   };
 
   return (
+    <AppLayout>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-6">
         <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
@@ -62,6 +64,7 @@ function CreateVendingMachine() {
         </div>
       </div>
     </div>
+    </AppLayout>
   );
 }
 
